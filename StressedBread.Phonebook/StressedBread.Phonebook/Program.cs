@@ -13,8 +13,6 @@ builder.Services.AddDbContext<PhonebookContext>(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<PhonebookContext>();
-    context.Database.Migrate();
-}
+using var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<PhonebookContext>();
+context.Database.Migrate();
