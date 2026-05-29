@@ -3,7 +3,7 @@ using StressedBread.Phonebook.Converters;
 using static StressedBread.Phonebook.Enums;
 
 namespace StressedBread.Phonebook.UI;
-internal class MainMenuUI
+public class MainMenuUI
 {
     internal MainMenuOptions DisplayMainMenu()
     {

@@ -6,10 +6,9 @@ public class PhonebookContext : DbContext
 { 
     public DbSet<Contact> Contacts { get; set; }
 
-    public PhonebookContext(DbContextOptions<PhonebookContext> options) : base(options)
-    {
+    public PhonebookContext() { }
 
-    }
+    public PhonebookContext(DbContextOptions<PhonebookContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
