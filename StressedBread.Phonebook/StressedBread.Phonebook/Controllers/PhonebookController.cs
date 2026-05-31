@@ -22,22 +22,34 @@ public class PhonebookController
         while (true)
         {
             var selectedOption = _mainMenuUI.DisplayMainMenu();
+
             switch (selectedOption)
             {
                 case Enums.MainMenuOptions.AddContact:
                     var newContact = _contactListUI.AddContactDisplay();
-                    await _contactService.AddContact(newContact);
+                    await _contactService.AddContactAsync(newContact);
                     break;
+
                 case Enums.MainMenuOptions.UpdateContact:
                     // Logic to update contact
                     break;
+
                 case Enums.MainMenuOptions.DeleteContact:
-                    // Logic to delete contact
+                    var contactsToDelete = await _contactService.GetAllContactsAsync();
+                    var contactToDelete = _contactListUI.DeleteContactDisplay(contactsToDelete);
+
+                    if (contactToDelete == -1)
+                        break;
+
+                    var result = await _contactService.DeleteContactAsync(contactToDelete);
+                    _contactListUI.ShowResults(result);
                     break;
+
                 case Enums.MainMenuOptions.ViewContacts:
-                    var contacts = await _contactService.GetAllContactsAsync();
-                    _contactListUI.ViewContacts(contacts);
+                    var contactsToDisplay = await _contactService.GetAllContactsAsync();
+                    _contactListUI.ViewContacts(contactsToDisplay);
                     break;
+
                 case Enums.MainMenuOptions.Exit:
                     return; // Exit the application
             }

@@ -11,7 +11,7 @@ public class ContactService
         _context = context;
     }
 
-    internal async Task AddContact((string Name, string PhoneNumber, string Email) newContact)
+    internal async Task AddContactAsync((string Name, string PhoneNumber, string Email) newContact)
     {
         var contact = new Contact 
         { 
@@ -27,5 +27,16 @@ public class ContactService
     internal async Task<List<Contact>> GetAllContactsAsync()
     {
         return await _context.Contacts.ToListAsync();
+    }
+
+    internal async Task<(bool, string)> DeleteContactAsync(int contactId)
+    {
+        var contact = await _context.Contacts.FindAsync(contactId);
+        if (contact == null) return (false, "Contact not found.");
+
+        _context.Contacts.Remove(contact);
+        await _context.SaveChangesAsync();
+
+        return (true, "Contact deleted successfully.");
     }
 }
