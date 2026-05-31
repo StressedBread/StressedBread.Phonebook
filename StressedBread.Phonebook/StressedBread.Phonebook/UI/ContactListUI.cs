@@ -17,6 +17,9 @@ public class ContactListUI
     internal void ViewContacts(List<Contact> contacts)
     {
         DisplayContacts(contacts);
+
+        AnsiConsole.MarkupLine("Press any key to return to the main menu...");
+        Console.ReadKey();
     }
 
     internal void DisplayContacts(List<Contact> contacts)
@@ -25,18 +28,19 @@ public class ContactListUI
 
         var table = new Table();
 
+        table.AddColumn("ID");
         table.AddColumn("Name");
         table.AddColumn("Phone Number");
         table.AddColumn("Email");
 
+        int id = 1;
+
         foreach (var contact in contacts)
         {
-            table.AddRow(contact.Name, contact.PhoneNumber, contact.Email);
+            table.AddRow(id.ToString(), contact.Name, contact.PhoneNumber, contact.Email);
+            id++;
         }
 
-        AnsiConsole.Write(table);
-
-        AnsiConsole.MarkupLine("Press any key to return to the main menu...");
-        Console.ReadKey();
+        AnsiConsole.Write(table);        
     }    
 }
