@@ -41,7 +41,6 @@ public class PhonebookController
                     return;
             }
         }
-        }
     }
 
     private async Task AddContact()
