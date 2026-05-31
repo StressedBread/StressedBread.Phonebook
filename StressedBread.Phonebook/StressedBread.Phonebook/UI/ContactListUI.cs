@@ -14,6 +14,10 @@ public class ContactListUI
 
         return (name, phoneNumber, email);
     }
+    internal void ViewContacts(List<Contact> contacts)
+    {
+        DisplayContacts(contacts);
+    }
 
     internal void DisplayContacts(List<Contact> contacts)
     {
@@ -34,5 +38,5 @@ public class ContactListUI
 
         AnsiConsole.MarkupLine("Press any key to return to the main menu...");
         Console.ReadKey();
-    }
+    }    
 }

@@ -36,7 +36,7 @@ public class PhonebookController
                     break;
                 case Enums.MainMenuOptions.ViewContacts:
                     var contacts = await _contactService.GetAllContactsAsync();
-                    _contactListUI.DisplayContacts(contacts);
+                    _contactListUI.ViewContacts(contacts);
                     break;
                 case Enums.MainMenuOptions.Exit:
                     return; // Exit the application
