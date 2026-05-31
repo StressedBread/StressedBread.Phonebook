@@ -39,4 +39,15 @@ public class ContactService
 
         return (true, "Contact deleted successfully.");
     }
+
+    internal async Task<(bool, string)> UpdateContactAsync(int contactId, Contact updatedContact)
+    {
+        var contact = await _context.Contacts.FindAsync(contactId);
+        if (contact == null) return (false, "Contact not found.");
+
+        _context.Entry(contact).CurrentValues.SetValues(updatedContact);
+        await _context.SaveChangesAsync();
+
+        return (true, "Contact updated successfully.");
+    }
 }

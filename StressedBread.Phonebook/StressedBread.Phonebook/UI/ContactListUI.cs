@@ -22,13 +22,13 @@ public class ContactListUI
         Console.ReadKey();
     }
 
-    internal int DeleteContactDisplay(List<Contact> contacts)
+    internal int SelectContactDisplayById(List<Contact> contacts)
     {
         DisplayContacts(contacts);
 
         while (true)
         {
-            var displayContactId = AnsiConsole.Ask<int>("Enter the ID of the contact to delete or 0 to return to menu:");
+            var displayContactId = AnsiConsole.Ask<int>("Enter the ID of the contact or 0 to return to menu:");
             if (displayContactId == 0)
                 return -1;
 
@@ -39,6 +39,15 @@ public class ContactListUI
             else
                 return contacts[contactId].Id;
         }
+    }
+
+    internal Contact UpdateContactDisplay(Contact contact)
+    {
+        AnsiConsole.Clear();
+        contact.Name = AnsiConsole.Ask($"Enter new name or press Enter to keep current (current: {contact.Name}):", contact.Name);
+        contact.PhoneNumber = AnsiConsole.Ask($"Enter new phone number or press Enter to keep current (current: {contact.PhoneNumber}):", contact.PhoneNumber);
+        contact.Email = AnsiConsole.Ask($"Enter new email or press Enter to keep current (current: {contact.Email}):", contact.Email);
+        return contact;
     }
 
     internal void DisplayContacts(List<Contact> contacts)
