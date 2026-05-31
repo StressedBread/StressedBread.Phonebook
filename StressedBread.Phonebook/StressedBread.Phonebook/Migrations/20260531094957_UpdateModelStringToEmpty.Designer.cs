@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StressedBread.Phonebook.Data;
 
@@ -10,9 +11,11 @@ using StressedBread.Phonebook.Data;
 namespace StressedBread.Phonebook.Migrations
 {
     [DbContext(typeof(PhonebookContext))]
-    partial class PhonebookContextModelSnapshot : ModelSnapshot
+    [Migration("20260531094957_UpdateModelStringToEmpty")]
+    partial class UpdateModelStringToEmpty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

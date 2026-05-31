@@ -1,4 +1,5 @@
-﻿using StressedBread.Phonebook.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using StressedBread.Phonebook.Data;
 using StressedBread.Phonebook.Models;
 
 namespace StressedBread.Phonebook.Services;
@@ -21,5 +22,10 @@ public class ContactService
 
         _context.Contacts.Add(contact);
         await _context.SaveChangesAsync();
+    }
+
+    internal async Task<List<Contact>> GetAllContactsAsync()
+    {
+        return await _context.Contacts.ToListAsync();
     }
 }

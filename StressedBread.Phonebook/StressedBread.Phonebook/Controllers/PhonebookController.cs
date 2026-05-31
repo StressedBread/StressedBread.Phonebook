@@ -35,7 +35,8 @@ public class PhonebookController
                     // Logic to delete contact
                     break;
                 case Enums.MainMenuOptions.ViewContacts:
-                    // Logic to view contacts
+                    var contacts = await _contactService.GetAllContactsAsync();
+                    _contactListUI.DisplayContacts(contacts);
                     break;
                 case Enums.MainMenuOptions.Exit:
                     return; // Exit the application

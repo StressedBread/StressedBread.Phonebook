@@ -14,10 +14,10 @@ builder.Services.AddDbContext<PhonebookContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddSingleton<MainMenuUI>();
-builder.Services.AddSingleton<PhonebookController>();
-builder.Services.AddSingleton<ContactService>();
-builder.Services.AddSingleton<ContactListUI>();
+builder.Services.AddScoped<MainMenuUI>();
+builder.Services.AddScoped<PhonebookController>();
+builder.Services.AddScoped<ContactListUI>();
+builder.Services.AddScoped<ContactService>();
 
 var app = builder.Build();
 
