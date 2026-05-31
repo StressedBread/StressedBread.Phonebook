@@ -25,34 +25,49 @@ public class PhonebookController
 
             switch (selectedOption)
             {
-                case Enums.MainMenuOptions.AddContact:
-                    var newContact = _contactListUI.AddContactDisplay();
-                    await _contactService.AddContactAsync(newContact);
+                case Enums.MainMenuOptions.AddContact: 
+                    await AddContact(); 
                     break;
-
-                case Enums.MainMenuOptions.UpdateContact:
-                    // Logic to update contact
+                case Enums.MainMenuOptions.UpdateContact: 
+                    await UpdateContact(); 
                     break;
-
-                case Enums.MainMenuOptions.DeleteContact:
-                    var contactsToDelete = await _contactService.GetAllContactsAsync();
-                    var contactToDelete = _contactListUI.DeleteContactDisplay(contactsToDelete);
-
-                    if (contactToDelete == -1)
-                        break;
-
-                    var result = await _contactService.DeleteContactAsync(contactToDelete);
-                    _contactListUI.ShowResults(result);
+                case Enums.MainMenuOptions.DeleteContact: 
+                    await DeleteContact(); 
                     break;
-
-                case Enums.MainMenuOptions.ViewContacts:
-                    var contactsToDisplay = await _contactService.GetAllContactsAsync();
-                    _contactListUI.ViewContacts(contactsToDisplay);
+                case Enums.MainMenuOptions.ViewContacts: 
+                    await ViewContacts(); 
                     break;
-
-                case Enums.MainMenuOptions.Exit:
-                    return; // Exit the application
+                case Enums.MainMenuOptions.Exit: 
+                    return;
             }
         }
+        }
+    }
+
+    private async Task AddContact()
+    {
+        var newContact = _contactListUI.AddContactDisplay();
+        await _contactService.AddContactAsync(newContact);
+    }
+
+    private async Task UpdateContact()
+    {
+        // update logic
+    }
+
+    private async Task DeleteContact()
+    {
+        var contacts = await _contactService.GetAllContactsAsync();
+        var contactId = _contactListUI.DeleteContactDisplay(contacts);
+        if (contactId == -1) return;
+
+        var result = await _contactService.DeleteContactAsync(contactId);
+        _contactListUI.ShowResults(result);
+    }
+
+    private async Task ViewContacts()
+    {
+        var contacts = await _contactService.GetAllContactsAsync();
+        _contactListUI.ViewContacts(contacts);
     }
 }
