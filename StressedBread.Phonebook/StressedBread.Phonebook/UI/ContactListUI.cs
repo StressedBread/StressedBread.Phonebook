@@ -64,9 +64,14 @@ public class ContactListUI
     internal Contact UpdateContactDisplay(Contact contact)
     {
         AnsiConsole.Clear();
-        contact.Name = AnsiConsole.Ask($"Enter new name or press Enter to keep current (current: {contact.Name}):", contact.Name);
-        contact.PhoneNumber = AnsiConsole.Ask($"Enter new phone number or press Enter to keep current (current: {contact.PhoneNumber}):", contact.PhoneNumber);
-        contact.Email = AnsiConsole.Ask($"Enter new email or press Enter to keep current (current: {contact.Email}):", contact.Email);
+
+        if (AnsiConsole.Confirm("Do you want to update the contact name?"))
+            contact.Name = AnsiConsole.Ask<string>("Enter new contact name:");
+        if (AnsiConsole.Confirm("Do you want to update the contact phone number?"))
+            contact.PhoneNumber = PhoneNumberUIValidation();
+        if (AnsiConsole.Confirm("Do you want to update the contact email?"))
+            contact.Email = EmailUIValidation();
+
         return contact;
     }
 
