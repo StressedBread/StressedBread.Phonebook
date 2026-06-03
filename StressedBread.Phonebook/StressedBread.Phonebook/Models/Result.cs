@@ -4,51 +4,45 @@ namespace StressedBread.Phonebook.Models;
 public class Result
 {
     public bool IsSuccess { get; set; }
-    public string Message { get; set; } = string.Empty;
-    public ErrorResultType ErrorResultType { get; init; } = ErrorResultType.None;
+    public ResultType ResultType { get; init; } = ResultType.None;
 
-    public static Result Success(string message)
+    public static Result Success(ResultType resultType)
     {
         return new Result
         {
             IsSuccess = true,
-            Message = message
+            ResultType = resultType
         };
     }
-    public static Result Failure(string message, ErrorResultType errorResultType)
+    public static Result Failure(ResultType resultType)
     {
         return new Result
         { 
             IsSuccess = false, 
-            Message = message, 
-            ErrorResultType = errorResultType 
+            ResultType = resultType 
         };
     }
 }
 
-public class Result<T>
+public class Result<T> : Result
 {
-    public bool IsSuccess { get; set; }
-    public string Message { get; set; } = string.Empty;
     public T? Data { get; set; }
-    public ErrorResultType ErrorResultType { get; init; } = ErrorResultType.None;
 
-    public static Result<T> Success(T data, string message)
+    public static Result<T> Success(T data, ResultType resultType)
     {
         return new Result<T>
         {
             IsSuccess = true,
             Data = data,
-            Message = message
+            ResultType = resultType
         };
     }
-    public static Result<T> Failure(string message, ErrorResultType errorResultType) 
+    public static new Result<T> Failure(ResultType resultType) 
     {
         return new Result<T>
         {
             IsSuccess = false,
-            Message = message,
-            ErrorResultType = errorResultType
+            ResultType = resultType
         };
     }
 }

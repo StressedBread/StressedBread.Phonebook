@@ -1,12 +1,21 @@
 ﻿using Spectre.Console;
 using StressedBread.Phonebook.Models;
 using StressedBread.Phonebook.Validation;
+using static StressedBread.Phonebook.Enums;
 
 namespace StressedBread.Phonebook.UI;
 public class ContactListUI
 {
     private readonly PhoneNumberValidation _phoneNumberValidation;
     private readonly EmailValidation _emailValidation;
+
+    private static readonly Dictionary<ResultType, string> ResultMessages = new()
+    {
+        { ResultType.ContactNotFound, "Contact not found." },
+        { ResultType.DbUpdateError, "An error occurred while updating the database." },
+        { ResultType.None, string.Empty },
+        { ResultType.ContactsEmpty, "No contacts found." }
+    };
 
     public ContactListUI(PhoneNumberValidation phoneNumberValidation, EmailValidation emailValidation)
     {
@@ -83,12 +92,18 @@ public class ContactListUI
         AnsiConsole.Write(table);
     }
 
-    internal void ShowResults(Result result)
+    internal void ShowResults(Result result, string message = "")
     {
         if (result.IsSuccess)
-            AnsiConsole.MarkupLine($"[green]{result.Message}[/]");
+            AnsiConsole.MarkupLine($"[green]{message}[/]");
         else
-            AnsiConsole.MarkupLine($"[red]{result.Message}[/]");
+        {
+            if (ResultMessages.ContainsKey(result.ResultType))
+                AnsiConsole.MarkupLine($"[red]{ResultMessages[result.ResultType]}[/]");
+            else
+                AnsiConsole.MarkupLine($"[red]An unknown error occurred.[/]");
+        }
+
         AnsiConsole.MarkupLine("Press any key to return to the main menu...");
         Console.ReadKey();
     }

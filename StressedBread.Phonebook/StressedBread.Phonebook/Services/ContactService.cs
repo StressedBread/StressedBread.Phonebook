@@ -22,35 +22,59 @@ public class ContactService
         };
 
         _context.Contacts.Add(contact);
-        await _context.SaveChangesAsync();
-        return Result.Success("Contact added successfully.");
+
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Result.Success(ResultType.Success);
+        }
+        catch (DbUpdateException)
+        {
+            return Result.Failure(ResultType.DbUpdateError);
+        }
     }
 
     internal async Task<Result<List<Contact>>> GetAllContactsAsync()
     {
         var contactsList = await _context.Contacts.ToListAsync();
-        return Result<List<Contact>>.Success(contactsList, "Contacts retrieved successfully.");
+
+        if (contactsList.Count == 0) return Result<List<Contact>>.Failure(ResultType.ContactsEmpty);
+        return Result<List<Contact>>.Success(contactsList, ResultType.None);
     }
 
     internal async Task<Result> DeleteContactAsync(int contactId)
     {
         var contact = await _context.Contacts.FindAsync(contactId);
-        if (contact == null) return Result.Failure("Contact not found.", ErrorResultType.NotFound);
+        if (contact == null) return Result.Failure(ResultType.ContactNotFound);
 
         _context.Contacts.Remove(contact);
-        await _context.SaveChangesAsync();
 
-        return Result.Success("Contact deleted successfully.");
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Result.Success(ResultType.Success);
+        }
+        catch (DbUpdateException)
+        {
+            return Result.Failure(ResultType.DbUpdateError);
+        }
     }
 
     internal async Task<Result> UpdateContactAsync(int contactId, Contact updatedContact)
     {
         var contact = await _context.Contacts.FindAsync(contactId);
-        if (contact == null) return Result.Failure("Contact not found.", ErrorResultType.NotFound);
+        if (contact == null) return Result.Failure(ResultType.ContactNotFound);
 
         _context.Entry(contact).CurrentValues.SetValues(updatedContact);
-        await _context.SaveChangesAsync();
 
-        return Result.Success("Contact updated successfully.");
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Result.Success(ResultType.Success);
+        }
+        catch (DbUpdateException)
+        {
+            return Result.Failure(ResultType.DbUpdateError);
+        }
     }
 }

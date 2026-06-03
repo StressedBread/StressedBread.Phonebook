@@ -10,11 +10,12 @@ public class Enums
         Exit
     }
 
-    public enum ErrorResultType
+    public enum ResultType
     {
+        Success,
         None,
-        ValidationError,
         DbUpdateError,
-        NotFound
+        ContactNotFound,
+        ContactsEmpty,
     }
 }

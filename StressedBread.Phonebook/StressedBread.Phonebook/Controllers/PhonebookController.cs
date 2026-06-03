@@ -45,7 +45,13 @@ public class PhonebookController
     private async Task AddContact()
     {
         var newContact = _contactListUI.AddContactDisplay();
-        await _contactService.AddContactAsync(newContact);
+        var addResult = await _contactService.AddContactAsync(newContact);
+        var successMessage = String.Empty;
+
+        if (addResult.IsSuccess)
+            successMessage = "Contact added successfully.";
+
+        _contactListUI.ShowResults(addResult, successMessage);
     }
 
     private async Task UpdateContact()
@@ -56,7 +62,12 @@ public class PhonebookController
         var updatedContact = _contactListUI.UpdateContactDisplay(contact);
 
         var updateResult = await _contactService.UpdateContactAsync(contact.Id, updatedContact);
-        _contactListUI.ShowResults(updateResult);
+        var successMessage = String.Empty;
+
+        if (updateResult.IsSuccess)
+            successMessage = "Contact updated successfully.";
+
+        _contactListUI.ShowResults(updateResult, successMessage);
     }
 
     private async Task DeleteContact()
@@ -65,21 +76,33 @@ public class PhonebookController
         if (contact == null) return;
 
         var deleteResult = await _contactService.DeleteContactAsync(contact.Id);
-        _contactListUI.ShowResults(deleteResult);
+        var successMessage = String.Empty;
+
+        if (deleteResult.IsSuccess)
+            successMessage = "Contact deleted successfully.";
+
+        _contactListUI.ShowResults(deleteResult, successMessage);
     }
 
     private async Task ViewContacts()
     {
         var contacts = await _contactService.GetAllContactsAsync();
-        if (contacts.Data != null)
+
+        if (contacts.Data == null)
+            _contactListUI.ShowResults(contacts);
+        else
             _contactListUI.ViewContacts(contacts.Data);
     }
 
     private async Task<Contact?> SelectContact()
     {
         var contacts = await _contactService.GetAllContactsAsync();
-        if (contacts.Data != null)
-        {
+
+        if (contacts.Data == null)
+            _contactListUI.ShowResults(contacts);
+
+        else
+        { 
             var contactId = _contactListUI.SelectContactDisplayById(contacts.Data);
             if (contactId == -1) return null;
             return contacts.Data.FirstOrDefault(c => c.Id == contactId);
