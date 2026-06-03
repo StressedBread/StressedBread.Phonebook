@@ -21,6 +21,7 @@ builder.Services.AddScoped<PhonebookController>();
 builder.Services.AddScoped<ContactListUI>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<PhoneNumberValidation>();
+builder.Services.AddScoped<EmailValidation>();
 builder.Services.AddSingleton(PhoneNumberUtil.GetInstance());
 
 var app = builder.Build();

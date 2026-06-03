@@ -6,10 +6,12 @@ namespace StressedBread.Phonebook.UI;
 public class ContactListUI
 {
     private readonly PhoneNumberValidation _phoneNumberValidation;
+    private readonly EmailValidation _emailValidation;
 
-    public ContactListUI(PhoneNumberValidation phoneNumberValidation)
+    public ContactListUI(PhoneNumberValidation phoneNumberValidation, EmailValidation emailValidation)
     {
         _phoneNumberValidation = phoneNumberValidation;
+        _emailValidation = emailValidation;
     }
 
     internal (string Name, string PhoneNumber, string Email) AddContactDisplay()
@@ -19,20 +21,31 @@ public class ContactListUI
         var name = AnsiConsole.Ask<string>("Enter contact name:");
         
         var phoneNumber = string.Empty;
-        var isValid = false;
+        var isValidNumber = false;
 
         do
         {
             phoneNumber = AnsiConsole.Ask<string>("Enter contact phone number in international format:");
             var validationResult = _phoneNumberValidation.IsValidPhoneNumber(phoneNumber);
-            isValid = validationResult.isValid;
+            isValidNumber = validationResult.isValid;
 
-            if (!isValid)
+            if (!isValidNumber)
                 AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
 
-        } while (!isValid);
+        } while (!isValidNumber);
 
-        var email = AnsiConsole.Ask<string>("Enter contact email:");
+        var email = string.Empty;
+        var isValidEmail = false;
+
+        do
+        {
+            email = AnsiConsole.Ask<string>("Enter contact email:");
+            var validationResult = _emailValidation.IsValidEmail(email);
+            isValidEmail = validationResult.isValid;
+
+            if (!isValidEmail)
+                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
+        } while (!isValidEmail);
 
         return (name, phoneNumber, email);
     }
