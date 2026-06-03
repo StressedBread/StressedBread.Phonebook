@@ -1,19 +1,42 @@
 ﻿using Spectre.Console;
 using StressedBread.Phonebook.Models;
+using StressedBread.Phonebook.Validation;
 
 namespace StressedBread.Phonebook.UI;
 public class ContactListUI
 {
+    private readonly PhoneNumberValidation _phoneNumberValidation;
+
+    public ContactListUI(PhoneNumberValidation phoneNumberValidation)
+    {
+        _phoneNumberValidation = phoneNumberValidation;
+    }
+
     internal (string Name, string PhoneNumber, string Email) AddContactDisplay()
     {
         AnsiConsole.Clear();
 
         var name = AnsiConsole.Ask<string>("Enter contact name:");
-        var phoneNumber = AnsiConsole.Ask<string>("Enter contact phone number:");
+        
+        var phoneNumber = string.Empty;
+        var isValid = false;
+
+        do
+        {
+            phoneNumber = AnsiConsole.Ask<string>("Enter contact phone number in international format:");
+            var validationResult = _phoneNumberValidation.IsValidPhoneNumber(phoneNumber);
+            isValid = validationResult.isValid;
+
+            if (!isValid)
+                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
+
+        } while (!isValid);
+
         var email = AnsiConsole.Ask<string>("Enter contact email:");
 
         return (name, phoneNumber, email);
     }
+
     internal void ViewContacts(List<Contact> contacts)
     {
         DisplayContacts(contacts);

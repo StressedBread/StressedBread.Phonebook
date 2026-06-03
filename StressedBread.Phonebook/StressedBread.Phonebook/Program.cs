@@ -2,10 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PhoneNumbers;
 using StressedBread.Phonebook.Controllers;
 using StressedBread.Phonebook.Data;
 using StressedBread.Phonebook.Services;
 using StressedBread.Phonebook.UI;
+using StressedBread.Phonebook.Validation;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services.AddScoped<MainMenuUI>();
 builder.Services.AddScoped<PhonebookController>();
 builder.Services.AddScoped<ContactListUI>();
 builder.Services.AddScoped<ContactService>();
+builder.Services.AddScoped<PhoneNumberValidation>();
+builder.Services.AddSingleton(PhoneNumberUtil.GetInstance());
 
 var app = builder.Build();
 
