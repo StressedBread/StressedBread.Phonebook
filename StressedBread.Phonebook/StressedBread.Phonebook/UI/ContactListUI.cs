@@ -19,33 +19,8 @@ public class ContactListUI
         AnsiConsole.Clear();
 
         var name = AnsiConsole.Ask<string>("Enter contact name:");
-        
-        var phoneNumber = string.Empty;
-        var isValidNumber = false;
-
-        do
-        {
-            phoneNumber = AnsiConsole.Ask<string>("Enter contact phone number in international format:");
-            var validationResult = _phoneNumberValidation.IsValidPhoneNumber(phoneNumber);
-            isValidNumber = validationResult.isValid;
-
-            if (!isValidNumber)
-                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
-
-        } while (!isValidNumber);
-
-        var email = string.Empty;
-        var isValidEmail = false;
-
-        do
-        {
-            email = AnsiConsole.Ask<string>("Enter contact email:");
-            var validationResult = _emailValidation.IsValidEmail(email);
-            isValidEmail = validationResult.isValid;
-
-            if (!isValidEmail)
-                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
-        } while (!isValidEmail);
+        var phoneNumber = PhoneNumberUIValidation();
+        var email = EmailUIValidation();
 
         return (name, phoneNumber, email);
     }
@@ -105,8 +80,8 @@ public class ContactListUI
             id++;
         }
 
-        AnsiConsole.Write(table);        
-    }    
+        AnsiConsole.Write(table);
+    }
 
     internal void ShowResults((bool isSuccess, string message) result)
     {
@@ -116,5 +91,42 @@ public class ContactListUI
             AnsiConsole.MarkupLine($"[red]{result.message}[/]");
         AnsiConsole.MarkupLine("Press any key to return to the main menu...");
         Console.ReadKey();
+    }
+
+    private string PhoneNumberUIValidation()
+    {
+        var phoneNumber = string.Empty;
+        var isValidNumber = false;
+
+        do
+        {
+            phoneNumber = AnsiConsole.Ask<string>("Enter contact phone number in international format:");
+            var validationResult = _phoneNumberValidation.IsValidPhoneNumber(phoneNumber);
+            isValidNumber = validationResult.isValid;
+
+            if (!isValidNumber)
+                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
+
+        } while (!isValidNumber);
+
+        return phoneNumber;
+    }
+
+    private string EmailUIValidation()
+    {
+        var email = string.Empty;
+        var isValidEmail = false;
+
+        do
+        {
+            email = AnsiConsole.Ask<string>("Enter contact email:");
+            var validationResult = _emailValidation.IsValidEmail(email);
+            isValidEmail = validationResult.isValid;
+
+            if (!isValidEmail)
+                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
+        } while (!isValidEmail);
+
+        return email;
     }
 }
