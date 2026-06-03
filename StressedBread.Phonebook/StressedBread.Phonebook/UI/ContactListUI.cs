@@ -83,12 +83,12 @@ public class ContactListUI
         AnsiConsole.Write(table);
     }
 
-    internal void ShowResults((bool isSuccess, string message) result)
+    internal void ShowResults(Result result)
     {
-        if (result.isSuccess)
-            AnsiConsole.MarkupLine($"[green]{result.message}[/]");
+        if (result.IsSuccess)
+            AnsiConsole.MarkupLine($"[green]{result.Message}[/]");
         else
-            AnsiConsole.MarkupLine($"[red]{result.message}[/]");
+            AnsiConsole.MarkupLine($"[red]{result.Message}[/]");
         AnsiConsole.MarkupLine("Press any key to return to the main menu...");
         Console.ReadKey();
     }

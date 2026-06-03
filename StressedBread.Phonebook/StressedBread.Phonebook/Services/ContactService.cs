@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StressedBread.Phonebook.Data;
 using StressedBread.Phonebook.Models;
+using static StressedBread.Phonebook.Enums;
 
 namespace StressedBread.Phonebook.Services;
 public class ContactService
@@ -11,7 +12,7 @@ public class ContactService
         _context = context;
     }
 
-    internal async Task AddContactAsync((string Name, string PhoneNumber, string Email) newContact)
+    internal async Task<Result> AddContactAsync((string Name, string PhoneNumber, string Email) newContact)
     {
         var contact = new Contact 
         { 
@@ -22,32 +23,34 @@ public class ContactService
 
         _context.Contacts.Add(contact);
         await _context.SaveChangesAsync();
+        return Result.Success("Contact added successfully.");
     }
 
-    internal async Task<List<Contact>> GetAllContactsAsync()
+    internal async Task<Result<List<Contact>>> GetAllContactsAsync()
     {
-        return await _context.Contacts.ToListAsync();
+        var contactsList = await _context.Contacts.ToListAsync();
+        return Result<List<Contact>>.Success(contactsList, "Contacts retrieved successfully.");
     }
 
-    internal async Task<(bool, string)> DeleteContactAsync(int contactId)
+    internal async Task<Result> DeleteContactAsync(int contactId)
     {
         var contact = await _context.Contacts.FindAsync(contactId);
-        if (contact == null) return (false, "Contact not found.");
+        if (contact == null) return Result.Failure("Contact not found.", ErrorResultType.NotFound);
 
         _context.Contacts.Remove(contact);
         await _context.SaveChangesAsync();
 
-        return (true, "Contact deleted successfully.");
+        return Result.Success("Contact deleted successfully.");
     }
 
-    internal async Task<(bool, string)> UpdateContactAsync(int contactId, Contact updatedContact)
+    internal async Task<Result> UpdateContactAsync(int contactId, Contact updatedContact)
     {
         var contact = await _context.Contacts.FindAsync(contactId);
-        if (contact == null) return (false, "Contact not found.");
+        if (contact == null) return Result.Failure("Contact not found.", ErrorResultType.NotFound);
 
         _context.Entry(contact).CurrentValues.SetValues(updatedContact);
         await _context.SaveChangesAsync();
 
-        return (true, "Contact updated successfully.");
+        return Result.Success("Contact updated successfully.");
     }
 }

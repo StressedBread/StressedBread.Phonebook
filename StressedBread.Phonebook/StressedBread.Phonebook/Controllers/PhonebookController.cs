@@ -71,14 +71,19 @@ public class PhonebookController
     private async Task ViewContacts()
     {
         var contacts = await _contactService.GetAllContactsAsync();
-        _contactListUI.ViewContacts(contacts);
+        if (contacts.Data != null)
+            _contactListUI.ViewContacts(contacts.Data);
     }
 
     private async Task<Contact?> SelectContact()
     {
         var contacts = await _contactService.GetAllContactsAsync();
-        var contactId = _contactListUI.SelectContactDisplayById(contacts);
-        if (contactId == -1) return null;
-        return contacts.FirstOrDefault(c => c.Id == contactId);
+        if (contacts.Data != null)
+        {
+            var contactId = _contactListUI.SelectContactDisplayById(contacts.Data);
+            if (contactId == -1) return null;
+            return contacts.Data.FirstOrDefault(c => c.Id == contactId);
+        }
+        return null;
     }
 }

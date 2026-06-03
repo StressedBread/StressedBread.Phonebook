@@ -1,12 +1,20 @@
 ﻿namespace StressedBread.Phonebook;
-internal class Enums
+public class Enums
 {
-    internal enum MainMenuOptions
+    public enum MainMenuOptions
     {
         AddContact,
         UpdateContact,
         DeleteContact,
         ViewContacts,
         Exit
+    }
+
+    public enum ErrorResultType
+    {
+        None,
+        ValidationError,
+        DbUpdateError,
+        NotFound
     }
 }
