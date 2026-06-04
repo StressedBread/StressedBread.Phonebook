@@ -58,7 +58,9 @@ public class ContactService
         var contact = await _context.Contacts.FindAsync(contactId);
         if (contact == null) return Result.Failure(ResultType.ContactNotFound);
 
-        _context.Entry(contact).CurrentValues.SetValues(updatedContact);
+        contact.Name = updatedContact.Name;
+        contact.PhoneNumber = updatedContact.PhoneNumber;
+        contact.Email = updatedContact.Email;
 
         try
         {
