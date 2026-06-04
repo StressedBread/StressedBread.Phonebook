@@ -16,7 +16,7 @@ public class PhonebookController
         _contactListUI = contactListUI;
     }
 
-    internal async Task Run()
+    public async Task Run()
     {
         while (true)
         {

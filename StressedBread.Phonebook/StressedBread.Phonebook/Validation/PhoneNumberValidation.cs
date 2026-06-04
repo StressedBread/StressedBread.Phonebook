@@ -9,7 +9,7 @@ public class PhoneNumberValidation
         _phoneNumberUtil = phoneNumberUtil;
     }
 
-    internal (bool isValid, string message) IsValidPhoneNumber(string phoneNumber)
+    public (bool isValid, string message) IsValidPhoneNumber(string phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return (false, "Phone number cannot be empty.");

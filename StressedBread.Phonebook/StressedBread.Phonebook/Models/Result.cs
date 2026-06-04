@@ -3,7 +3,7 @@
 namespace StressedBread.Phonebook.Models;
 public class Result
 {
-    public bool IsSuccess { get; set; }
+    public bool IsSuccess { get; init; }
     public ResultType ResultType { get; init; } = ResultType.None;
 
     public static Result Success(ResultType resultType)

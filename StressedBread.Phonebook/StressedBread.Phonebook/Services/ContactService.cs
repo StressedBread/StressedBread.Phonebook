@@ -12,7 +12,7 @@ public class ContactService
         _context = context;
     }
 
-    internal async Task<Result> AddContactAsync(Contact newContact)
+    public async Task<Result> AddContactAsync(Contact newContact)
     {
         _context.Contacts.Add(newContact);
 
@@ -27,7 +27,7 @@ public class ContactService
         }
     }
 
-    internal async Task<Result<List<Contact>>> GetAllContactsAsync()
+    public async Task<Result<List<Contact>>> GetAllContactsAsync()
     {
         var contactsList = await _context.Contacts.ToListAsync();
 
@@ -35,7 +35,7 @@ public class ContactService
         return Result<List<Contact>>.Success(contactsList, ResultType.None);
     }
 
-    internal async Task<Result> DeleteContactAsync(int contactId)
+    public async Task<Result> DeleteContactAsync(int contactId)
     {
         var contact = await _context.Contacts.FindAsync(contactId);
         if (contact == null) return Result.Failure(ResultType.ContactNotFound);
@@ -53,7 +53,7 @@ public class ContactService
         }
     }
 
-    internal async Task<Result> UpdateContactAsync(int contactId, Contact updatedContact)
+    public async Task<Result> UpdateContactAsync(int contactId, Contact updatedContact)
     {
         var contact = await _context.Contacts.FindAsync(contactId);
         if (contact == null) return Result.Failure(ResultType.ContactNotFound);

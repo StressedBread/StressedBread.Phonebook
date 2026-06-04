@@ -23,7 +23,7 @@ public class ContactListUI
         _emailValidation = emailValidation;
     }
 
-    internal Contact AddContactDisplay()
+    public Contact AddContactDisplay()
     {
         AnsiConsole.Clear();
 
@@ -39,7 +39,7 @@ public class ContactListUI
         };
     }
 
-    internal void ViewContacts(List<Contact> contacts)
+    public void ViewContacts(List<Contact> contacts)
     {
         DisplayContacts(contacts);
 
@@ -47,7 +47,7 @@ public class ContactListUI
         Console.ReadKey();
     }
 
-    internal int SelectContactDisplayById(List<Contact> contacts)
+    public int SelectContactDisplayById(List<Contact> contacts)
     {
         DisplayContacts(contacts);
 
@@ -66,7 +66,7 @@ public class ContactListUI
         }
     }
 
-    internal Contact UpdateContactDisplay(Contact contact)
+    public Contact UpdateContactDisplay(Contact contact)
     {
         AnsiConsole.Clear();
 
@@ -80,7 +80,7 @@ public class ContactListUI
         return contact;
     }
 
-    internal void DisplayContacts(List<Contact> contacts)
+    public void DisplayContacts(List<Contact> contacts)
     {
         AnsiConsole.Clear();
 
@@ -102,7 +102,7 @@ public class ContactListUI
         AnsiConsole.Write(table);
     }
 
-    internal void ShowResults(Result result, string message = "")
+    public void ShowResults(Result result, string message = "")
     {
         if (result.IsSuccess)
             AnsiConsole.MarkupLine($"[green]{message}[/]");
