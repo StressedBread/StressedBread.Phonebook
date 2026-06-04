@@ -14,6 +14,7 @@ public class Result
             ResultType = resultType
         };
     }
+
     public static Result Failure(ResultType resultType)
     {
         return new Result
@@ -22,11 +23,20 @@ public class Result
             ResultType = resultType 
         };
     }
+
+    public static Result<T> Failure<T>(ResultType resultType)
+    {
+        return new Result<T>
+        {
+            IsSuccess = false,
+            ResultType = resultType
+        };
+    }
 }
 
 public class Result<T> : Result
 {
-    public T? Data { get; set; }
+    public T? Data { get; init; }
 
     public static Result<T> Success(T data, ResultType resultType)
     {
@@ -34,14 +44,6 @@ public class Result<T> : Result
         {
             IsSuccess = true,
             Data = data,
-            ResultType = resultType
-        };
-    }
-    public static new Result<T> Failure(ResultType resultType) 
-    {
-        return new Result<T>
-        {
-            IsSuccess = false,
             ResultType = resultType
         };
     }

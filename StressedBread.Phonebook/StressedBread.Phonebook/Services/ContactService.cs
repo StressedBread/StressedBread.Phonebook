@@ -31,7 +31,7 @@ public class ContactService
     {
         var contactsList = await _context.Contacts.ToListAsync();
 
-        if (contactsList.Count == 0) return Result<List<Contact>>.Failure(ResultType.ContactsEmpty);
+        if (contactsList.Count == 0) return Result.Failure<List<Contact>>(ResultType.ContactsEmpty);
         return Result<List<Contact>>.Success(contactsList, ResultType.None);
     }
 
