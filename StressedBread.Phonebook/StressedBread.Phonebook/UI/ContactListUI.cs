@@ -23,7 +23,7 @@ public class ContactListUI
         _emailValidation = emailValidation;
     }
 
-    internal (string Name, string PhoneNumber, string Email) AddContactDisplay()
+    internal Contact AddContactDisplay()
     {
         AnsiConsole.Clear();
 
@@ -31,7 +31,12 @@ public class ContactListUI
         var phoneNumber = PhoneNumberUIValidation();
         var email = EmailUIValidation();
 
-        return (name, phoneNumber, email);
+        return new Contact
+        {
+            Name = name,
+            PhoneNumber = phoneNumber,
+            Email = email
+        };
     }
 
     internal void ViewContacts(List<Contact> contacts)
@@ -141,10 +146,10 @@ public class ContactListUI
         {
             email = AnsiConsole.Ask<string>("Enter contact email:");
             var validationResult = _emailValidation.IsValidEmail(email);
-            isValidEmail = validationResult.isValid;
+            isValidEmail = validationResult.IsValid;
 
             if (!isValidEmail)
-                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
+                AnsiConsole.MarkupLine($"[red]{validationResult.Message} Please try again.[/]");
         } while (!isValidEmail);
 
         return email;

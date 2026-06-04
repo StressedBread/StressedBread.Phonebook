@@ -12,16 +12,9 @@ public class ContactService
         _context = context;
     }
 
-    internal async Task<Result> AddContactAsync((string Name, string PhoneNumber, string Email) newContact)
+    internal async Task<Result> AddContactAsync(Contact newContact)
     {
-        var contact = new Contact 
-        { 
-            Name = newContact.Name, 
-            PhoneNumber = newContact.PhoneNumber, 
-            Email = newContact.Email 
-        };
-
-        _context.Contacts.Add(contact);
+        _context.Contacts.Add(newContact);
 
         try
         {
