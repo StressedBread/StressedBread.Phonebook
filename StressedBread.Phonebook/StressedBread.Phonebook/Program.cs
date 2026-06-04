@@ -44,6 +44,13 @@ try
     if (await context.Database.CanConnectAsync())
     {
         context.Database.Migrate();
+
+        if (!context.Contacts.Any())
+        {
+            context.Contacts.AddRange(DatabaseSeeding.Seed());
+            await context.SaveChangesAsync();
+        }
+
         await controller.Run();
     }
     else
