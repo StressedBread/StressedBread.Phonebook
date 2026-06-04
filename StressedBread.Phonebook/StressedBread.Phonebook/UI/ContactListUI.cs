@@ -108,8 +108,8 @@ public class ContactListUI
             AnsiConsole.MarkupLine($"[green]{message}[/]");
         else
         {
-            if (ResultMessages.ContainsKey(result.ResultType))
-                AnsiConsole.MarkupLine($"[red]{ResultMessages[result.ResultType]}[/]");
+            if (ResultMessages.TryGetValue(result.ResultType, out var resultMessage))
+                AnsiConsole.MarkupLine($"[red]{resultMessage}[/]");
             else
                 AnsiConsole.MarkupLine($"[red]An unknown error occurred.[/]");
         }
