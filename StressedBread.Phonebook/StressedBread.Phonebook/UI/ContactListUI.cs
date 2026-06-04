@@ -4,11 +4,8 @@ using StressedBread.Phonebook.Validation;
 using static StressedBread.Phonebook.Enums;
 
 namespace StressedBread.Phonebook.UI;
-public class ContactListUI
+public class ContactListUI(PhoneNumberValidation phoneNumberValidation)
 {
-    private readonly PhoneNumberValidation _phoneNumberValidation;
-    private readonly EmailValidation _emailValidation;
-
     private static readonly Dictionary<ResultType, string> ResultMessages = new()
     {
         { ResultType.ContactNotFound, "Contact not found." },
@@ -16,12 +13,6 @@ public class ContactListUI
         { ResultType.None, string.Empty },
         { ResultType.ContactsEmpty, "No contacts found." }
     };
-
-    public ContactListUI(PhoneNumberValidation phoneNumberValidation, EmailValidation emailValidation)
-    {
-        _phoneNumberValidation = phoneNumberValidation;
-        _emailValidation = emailValidation;
-    }
 
     public Contact AddContactDisplay()
     {
@@ -39,7 +30,7 @@ public class ContactListUI
         };
     }
 
-    public void ViewContacts(List<Contact> contacts)
+    public static void ViewContacts(List<Contact> contacts)
     {
         DisplayContacts(contacts);
 
@@ -47,7 +38,7 @@ public class ContactListUI
         Console.ReadKey();
     }
 
-    public int SelectContactDisplayById(List<Contact> contacts)
+    public static int SelectContactDisplayById(List<Contact> contacts)
     {
         DisplayContacts(contacts);
 
@@ -80,7 +71,7 @@ public class ContactListUI
         return contact;
     }
 
-    public void DisplayContacts(List<Contact> contacts)
+    public static void DisplayContacts(List<Contact> contacts)
     {
         AnsiConsole.Clear();
 
@@ -102,7 +93,7 @@ public class ContactListUI
         AnsiConsole.Write(table);
     }
 
-    public void ShowResults(Result result, string message = "")
+    public static void ShowResults(Result result, string message = "")
     {
         if (result.IsSuccess)
             AnsiConsole.MarkupLine($"[green]{message}[/]");
@@ -120,36 +111,35 @@ public class ContactListUI
 
     private string PhoneNumberUIValidation()
     {
-        var phoneNumber = string.Empty;
-        var isValidNumber = false;
+        string? phoneNumber;
+        bool isValidNumber;
 
         do
         {
             phoneNumber = AnsiConsole.Ask<string>("Enter contact phone number in international format:");
-            var validationResult = _phoneNumberValidation.IsValidPhoneNumber(phoneNumber);
-            isValidNumber = validationResult.isValid;
+            var (IsValid, Message) = phoneNumberValidation.IsValidPhoneNumber(phoneNumber);
+            isValidNumber = IsValid;
 
             if (!isValidNumber)
-                AnsiConsole.MarkupLine($"[red]{validationResult.message} Please try again.[/]");
-
+                AnsiConsole.MarkupLine($"[red]{Message} Please try again.[/]");
         } while (!isValidNumber);
 
         return phoneNumber;
     }
 
-    private string EmailUIValidation()
+    private static string EmailUIValidation()
     {
-        var email = string.Empty;
-        var isValidEmail = false;
+        string? email;
+        bool isValidEmail;
 
         do
         {
             email = AnsiConsole.Ask<string>("Enter contact email:");
-            var validationResult = _emailValidation.IsValidEmail(email);
-            isValidEmail = validationResult.IsValid;
+            var (IsValid, Message) = EmailValidation.IsValidEmail(email);
+            isValidEmail = IsValid;
 
             if (!isValidEmail)
-                AnsiConsole.MarkupLine($"[red]{validationResult.Message} Please try again.[/]");
+                AnsiConsole.MarkupLine($"[red]{Message} Please try again.[/]");
         } while (!isValidEmail);
 
         return email;

@@ -4,21 +4,15 @@ using StressedBread.Phonebook.Models;
 using static StressedBread.Phonebook.Enums;
 
 namespace StressedBread.Phonebook.Services;
-public class ContactService
+public class ContactService(PhonebookContext context)
 {
-    private readonly PhonebookContext _context;
-    public ContactService(PhonebookContext context)
-    {
-        _context = context;
-    }
-
     public async Task<Result> AddContactAsync(Contact newContact)
     {
-        _context.Contacts.Add(newContact);
+        context.Contacts.Add(newContact);
 
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return Result.Success(ResultType.Success);
         }
         catch (DbUpdateException)
@@ -29,7 +23,7 @@ public class ContactService
 
     public async Task<Result<List<Contact>>> GetAllContactsAsync()
     {
-        var contactsList = await _context.Contacts.ToListAsync();
+        var contactsList = await context.Contacts.ToListAsync();
 
         if (contactsList.Count == 0) return Result.Failure<List<Contact>>(ResultType.ContactsEmpty);
         return Result<List<Contact>>.Success(contactsList, ResultType.None);
@@ -37,14 +31,14 @@ public class ContactService
 
     public async Task<Result> DeleteContactAsync(int contactId)
     {
-        var contact = await _context.Contacts.FindAsync(contactId);
+        var contact = await context.Contacts.FindAsync(contactId);
         if (contact == null) return Result.Failure(ResultType.ContactNotFound);
 
-        _context.Contacts.Remove(contact);
+        context.Contacts.Remove(contact);
 
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return Result.Success(ResultType.Success);
         }
         catch (DbUpdateException)
@@ -55,7 +49,7 @@ public class ContactService
 
     public async Task<Result> UpdateContactAsync(int contactId, Contact updatedContact)
     {
-        var contact = await _context.Contacts.FindAsync(contactId);
+        var contact = await context.Contacts.FindAsync(contactId);
         if (contact == null) return Result.Failure(ResultType.ContactNotFound);
 
         contact.Name = updatedContact.Name;
@@ -64,7 +58,7 @@ public class ContactService
 
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return Result.Success(ResultType.Success);
         }
         catch (DbUpdateException)

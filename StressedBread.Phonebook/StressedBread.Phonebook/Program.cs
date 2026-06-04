@@ -16,12 +16,10 @@ builder.Services.AddDbContext<PhonebookContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddScoped<MainMenuUI>();
 builder.Services.AddScoped<PhonebookController>();
 builder.Services.AddScoped<ContactListUI>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<PhoneNumberValidation>();
-builder.Services.AddScoped<EmailValidation>();
 builder.Services.AddSingleton(PhoneNumberUtil.GetInstance());
 
 var app = builder.Build();

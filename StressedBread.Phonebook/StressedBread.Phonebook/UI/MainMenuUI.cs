@@ -5,7 +5,7 @@ using static StressedBread.Phonebook.Enums;
 namespace StressedBread.Phonebook.UI;
 public class MainMenuUI
 {
-    public MainMenuOptions DisplayMainMenu()
+    public static MainMenuOptions DisplayMainMenu()
     {
         AnsiConsole.Clear();
 

@@ -1,23 +1,17 @@
 ﻿using PhoneNumbers;
 
 namespace StressedBread.Phonebook.Validation;
-public class PhoneNumberValidation
+public class PhoneNumberValidation(PhoneNumberUtil phoneNumberUtil)
 {
-    private readonly PhoneNumberUtil _phoneNumberUtil;
-    public PhoneNumberValidation(PhoneNumberUtil phoneNumberUtil)
-    {
-        _phoneNumberUtil = phoneNumberUtil;
-    }
-
-    public (bool isValid, string message) IsValidPhoneNumber(string phoneNumber)
+    public (bool IsValid, string Message) IsValidPhoneNumber(string phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return (false, "Phone number cannot be empty.");
 
         try
         {
-            var parsedPhoneNumber = _phoneNumberUtil.Parse(phoneNumber, null);
-            var isValid = _phoneNumberUtil.IsValidNumber(parsedPhoneNumber);
+            var parsedPhoneNumber = phoneNumberUtil.Parse(phoneNumber, null);
+            var isValid = phoneNumberUtil.IsValidNumber(parsedPhoneNumber);
 
             if (isValid) return (true, "");
             return (false, "Invalid phone number.");

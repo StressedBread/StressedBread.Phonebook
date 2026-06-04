@@ -3,24 +3,13 @@ using StressedBread.Phonebook.Services;
 using StressedBread.Phonebook.UI;
 
 namespace StressedBread.Phonebook.Controllers;
-public class PhonebookController
+public class PhonebookController(ContactService contactService, ContactListUI contactListUI)
 {
-    private readonly MainMenuUI _mainMenuUI;
-    private readonly ContactService _contactService;
-    private readonly ContactListUI _contactListUI;
-
-    public PhonebookController(MainMenuUI mainMenuUI, ContactService contactService, ContactListUI contactListUI)
-    {
-        _mainMenuUI = mainMenuUI;
-        _contactService = contactService;
-        _contactListUI = contactListUI;
-    }
-
     public async Task Run()
     {
         while (true)
         {
-            var selectedOption = _mainMenuUI.DisplayMainMenu();
+            var selectedOption = MainMenuUI.DisplayMainMenu();
 
             switch (selectedOption)
             {
@@ -44,10 +33,10 @@ public class PhonebookController
 
     private async Task AddContact()
     {
-        var newContact = _contactListUI.AddContactDisplay();
-        var addResult = await _contactService.AddContactAsync(newContact);
+        var newContact = contactListUI.AddContactDisplay();
+        var addResult = await contactService.AddContactAsync(newContact);
         
-        _contactListUI.ShowResults(addResult, addResult.IsSuccess ? "Contact added successfully" : string.Empty);
+        ContactListUI.ShowResults(addResult, addResult.IsSuccess ? "Contact added successfully" : string.Empty);
     }
 
     private async Task UpdateContact()
@@ -55,11 +44,11 @@ public class PhonebookController
         var contact = await SelectContact();
         if (contact == null) return;
 
-        var updatedContact = _contactListUI.UpdateContactDisplay(contact);
+        var updatedContact = contactListUI.UpdateContactDisplay(contact);
 
-        var updateResult = await _contactService.UpdateContactAsync(contact.Id, updatedContact);
+        var updateResult = await contactService.UpdateContactAsync(contact.Id, updatedContact);
 
-        _contactListUI.ShowResults(updateResult, updateResult.IsSuccess ? "Contact updated successfully" : string.Empty);
+        ContactListUI.ShowResults(updateResult, updateResult.IsSuccess ? "Contact updated successfully" : string.Empty);
     }
 
     private async Task DeleteContact()
@@ -67,31 +56,31 @@ public class PhonebookController
         var contact = await SelectContact();
         if (contact == null) return;
 
-        var deleteResult = await _contactService.DeleteContactAsync(contact.Id);
+        var deleteResult = await contactService.DeleteContactAsync(contact.Id);
 
-        _contactListUI.ShowResults(deleteResult, deleteResult.IsSuccess ? "Contact deleted successfully" : string.Empty);
+        ContactListUI.ShowResults(deleteResult, deleteResult.IsSuccess ? "Contact deleted successfully" : string.Empty);
     }
 
     private async Task ViewContacts()
     {
-        var contacts = await _contactService.GetAllContactsAsync();
+        var contacts = await contactService.GetAllContactsAsync();
 
         if (contacts.Data == null)
-            _contactListUI.ShowResults(contacts);
+            ContactListUI.ShowResults(contacts);
         else
-            _contactListUI.ViewContacts(contacts.Data);
+            ContactListUI.ViewContacts(contacts.Data);
     }
 
     private async Task<Contact?> SelectContact()
     {
-        var contacts = await _contactService.GetAllContactsAsync();
+        var contacts = await contactService.GetAllContactsAsync();
 
         if (contacts.Data == null)
-            _contactListUI.ShowResults(contacts);
+            ContactListUI.ShowResults(contacts);
 
         else
         { 
-            var contactId = _contactListUI.SelectContactDisplayById(contacts.Data);
+            var contactId = ContactListUI.SelectContactDisplayById(contacts.Data);
             if (contactId == -1) return null;
             return contacts.Data.FirstOrDefault(c => c.Id == contactId);
         }

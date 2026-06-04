@@ -2,7 +2,7 @@
 using System.Net.Mail;
 public class EmailValidation
 {
-    public (bool IsValid, string Message) IsValidEmail(string email)
+    public static (bool IsValid, string Message) IsValidEmail(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
             return (false, "Email cannot be empty.");
