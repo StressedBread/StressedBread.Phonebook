@@ -12,7 +12,7 @@ public class MainMenuUI
         return AnsiConsole.Prompt(
             new SelectionPrompt<MainMenuOptions>()
                 .Title("Select an option:")
-                .UseConverter(option => EnumToStringFormatAndConvert.Convert(option))
+                .UseConverter(EnumToStringFormatAndConvert.Convert)
                 .AddChoices(Enum.GetValues<MainMenuOptions>()));
     }
 }
