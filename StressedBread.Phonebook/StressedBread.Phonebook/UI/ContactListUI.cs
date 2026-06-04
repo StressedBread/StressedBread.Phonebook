@@ -1,10 +1,11 @@
 ﻿using Spectre.Console;
+using StressedBread.Phonebook.Helpers;
 using StressedBread.Phonebook.Models;
 using StressedBread.Phonebook.Validation;
 using static StressedBread.Phonebook.Enums;
 
 namespace StressedBread.Phonebook.UI;
-public class ContactListUI(PhoneNumberValidation phoneNumberValidation)
+public class ContactListUI(PhoneNumberValidation phoneNumberValidation, PhoneNumberFormatter phoneNumberFormatter)
 {
     private static readonly Dictionary<ResultType, string> ResultMessages = new()
     {
@@ -124,7 +125,7 @@ public class ContactListUI(PhoneNumberValidation phoneNumberValidation)
                 AnsiConsole.MarkupLine($"[red]{Message} Please try again.[/]");
         } while (!isValidNumber);
 
-        return phoneNumber;
+        return phoneNumberFormatter.FormatPhoneNumber(phoneNumber);
     }
 
     private static string EmailUIValidation()

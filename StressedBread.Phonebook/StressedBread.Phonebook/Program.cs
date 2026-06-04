@@ -6,6 +6,7 @@ using PhoneNumbers;
 using Spectre.Console;
 using StressedBread.Phonebook.Controllers;
 using StressedBread.Phonebook.Data;
+using StressedBread.Phonebook.Helpers;
 using StressedBread.Phonebook.Services;
 using StressedBread.Phonebook.UI;
 using StressedBread.Phonebook.Validation;
@@ -31,6 +32,7 @@ builder.Services.AddScoped<PhonebookController>();
 builder.Services.AddScoped<ContactListUI>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<PhoneNumberValidation>();
+builder.Services.AddScoped<PhoneNumberFormatter>();
 builder.Services.AddSingleton(PhoneNumberUtil.GetInstance());
 
 var app = builder.Build();
