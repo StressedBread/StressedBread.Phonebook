@@ -46,7 +46,7 @@ public class PhonebookController
     {
         var newContact = _contactListUI.AddContactDisplay();
         var addResult = await _contactService.AddContactAsync(newContact);
-        var successMessage = String.Empty;
+        var successMessage = string.Empty;
 
         if (addResult.IsSuccess)
             successMessage = "Contact added successfully.";
@@ -62,7 +62,7 @@ public class PhonebookController
         var updatedContact = _contactListUI.UpdateContactDisplay(contact);
 
         var updateResult = await _contactService.UpdateContactAsync(contact.Id, updatedContact);
-        var successMessage = String.Empty;
+        var successMessage = string.Empty;
 
         if (updateResult.IsSuccess)
             successMessage = "Contact updated successfully.";
@@ -76,7 +76,7 @@ public class PhonebookController
         if (contact == null) return;
 
         var deleteResult = await _contactService.DeleteContactAsync(contact.Id);
-        var successMessage = String.Empty;
+        var successMessage = string.Empty;
 
         if (deleteResult.IsSuccess)
             successMessage = "Contact deleted successfully.";
