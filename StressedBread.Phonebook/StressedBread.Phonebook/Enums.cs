@@ -7,6 +7,7 @@ public class Enums
         UpdateContact,
         DeleteContact,
         ViewContacts,
+        SendEmail,
         Exit
     }
 

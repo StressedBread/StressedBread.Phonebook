@@ -25,6 +25,9 @@ public class PhonebookController(ContactService contactService, ContactListUI co
                 case Enums.MainMenuOptions.ViewContacts: 
                     await ViewContacts(); 
                     break;
+                case Enums.MainMenuOptions.SendEmail: 
+                    await SendEmail();
+                    break;
                 case Enums.MainMenuOptions.Exit: 
                     return;
             }
@@ -85,5 +88,13 @@ public class PhonebookController(ContactService contactService, ContactListUI co
             return contacts.Data.FirstOrDefault(c => c.Id == contactId);
         }
         return null;
+    }
+
+    private async Task SendEmail()
+    {
+        var contact = await SelectContact();
+        if (contact == null) return;
+
+
     }
 }
