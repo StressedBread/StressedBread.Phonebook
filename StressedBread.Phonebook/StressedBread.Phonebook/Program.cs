@@ -33,6 +33,7 @@ builder.Services.AddScoped<ContactListUI>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<PhoneNumberValidation>();
 builder.Services.AddScoped<PhoneNumberFormatter>();
+builder.Services.AddScoped<EmailUI>();
 builder.Services.AddSingleton(PhoneNumberUtil.GetInstance());
 
 var app = builder.Build();

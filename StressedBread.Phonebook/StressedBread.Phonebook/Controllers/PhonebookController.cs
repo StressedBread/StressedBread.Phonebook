@@ -3,7 +3,7 @@ using StressedBread.Phonebook.Services;
 using StressedBread.Phonebook.UI;
 
 namespace StressedBread.Phonebook.Controllers;
-public class PhonebookController(ContactService contactService, ContactListUI contactListUI)
+public class PhonebookController(ContactService contactService, ContactListUI contactListUI, EmailUI emailUI)
 {
     public async Task Run()
     {
@@ -94,7 +94,8 @@ public class PhonebookController(ContactService contactService, ContactListUI co
     {
         var contact = await SelectContact();
         if (contact == null) return;
+        var contactEmail = contact.Email;
 
-
+        var (Subject, Body) = emailUI.EmailMessageDisplay();
     }
 }
